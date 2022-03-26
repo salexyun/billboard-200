@@ -4,14 +4,13 @@ sources:
   - name: staging
     database: de-billboard
     schema: billboard_200
-
     tables:
       - name: acoustic_features
       - name: albums
       - name: segments
 
 models:
-  - name: acoustic_features
+  - name: stg_acoustic_features
     description: >
       340,000 rows containing acoustic data for tracks from Billboard 200 albums from 1/5/1963 to 1/19/2019.
       Each row contains track ID on Spotify, track name, album name, artist name, values for Spotify EchoNest acoustic data
@@ -160,7 +159,7 @@ models:
         tests:
           - not_null:
               severity: warn
-  - name: albums
+  - name: stg_albums
     description: >
       574,000 rows containing all albums in the Billboard 200 from 1/5/1963 to 1/19/2019.
       Each row contains the album’s place in the charts, the week of the chart, album name, artist name, and where available from Spotify and not null in the table, the number of tracks, and length of the album in milliseconds.
@@ -184,7 +183,7 @@ models:
       description: The number of tracks in the album.
     - name: track_length
       description: The length of the album in milliseconds.
-  - name: segments
+  - name: stg_segments
     description: >
       2,821,061 rows of segment data from songs on Billboard 200 albums.
       Each song on Spotify typically contains upwards of 1000 segments; this table is constituted from a sample of 20 of those segments for each song or the max number of segments, whichever is smaller.
@@ -217,13 +216,11 @@ models:
         Timbre is the quality of a musical note or sound that distinguishes different types of musical instruments, or voices.
         It is a complex notion also referred to as sound color, texture, or tone quality, and is derived from the shape of a segment’s spectro-temporal surface, independently of pitch and loudness.
         The timbre feature is a vector that includes 12 unbounded values roughly centered around 0. Those values are high level abstractions of the spectral surface, ordered by degree of importance.
-        
         For completeness however, the first dimension represents the average loudness of the segment; second emphasizes brightness; third is more closely correlated to the flatness of a sound; fourth to sounds with a stronger attack; etc.
     - name: pitches
       description: >
         Pitch content is given by a “chroma” vector, corresponding to the 12 pitch classes C, C#, D to B, with values ranging from 0 to 1 that describe the relative dominance of every pitch in the chromatic scale.
         For example a C Major chord would likely be represented by large values of C, E and G (i.e. classes 0, 4, and 7).
-        
         Vectors are normalized to 1 by their strongest dimension, therefore noisy sounds are likely represented by values that are all close to 1, while pure tones are described by one value at 1 (the pitch) and others near 0.
     - name: confidence
       description: >
