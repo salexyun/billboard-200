@@ -46,8 +46,7 @@ track_data as (
     from
         acoustic_data,
         segment_data
-    where
-        acoustic_data.spotify_track_id = segment_data.spotify_track_id
+    where acoustic_data.spotify_track_id = segment_data.spotify_track_id
 ),
 
 album_data as (
